@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"strconv"
@@ -14,9 +13,9 @@ import (
 
 func main() {
 
-	conn := workdb.ConnectDB()
+	dbpool := workdb.ConnectDB()
 
-	defer conn.Close(context.Background())
+	defer dbpool.Close()
 
 	app := fiber.New()
 	app.Static("/", "./PublicationPage")
@@ -28,13 +27,13 @@ func main() {
 	// ------- /category --------------------------------------------
 
 	app.Get("/category", func(c *fiber.Ctx) error {
-		message, err := workdb.SelectAllCategory(conn)
+		categories, err := workdb.SelectAllCategory(dbpool)
 
 		if err != nil {
 			log.Println(err)
 			return err
 		}
-		return c.SendString(message)
+		return c.JSON(categories)
 
 	})
 	app.Post("/category", func(c *fiber.Ctx) error {
@@ -43,7 +42,7 @@ func main() {
 			log.Println(err)
 			return err
 		}
-		err := workdb.InsertCategory(newCategory, conn)
+		err := workdb.InsertCategory(newCategory, dbpool)
 		if err != nil {
 			log.Println(err)
 			return err
@@ -57,12 +56,12 @@ func main() {
 			log.Println(err)
 			return err
 		}
-		category, err := workdb.SelectAnCategory(id, conn)
+		category, err := workdb.SelectAnCategory(id, dbpool)
 		if err != nil {
 			log.Println(err)
 			return err
 		}
-		return c.SendString(category)
+		return c.JSON(category)
 	})
 
 	app.Put("/category/:id", func(c *fiber.Ctx) error {
@@ -76,7 +75,7 @@ func main() {
 			log.Println(err)
 			return err
 		}
-		err = workdb.ChangeCategory(id, newCategory, conn)
+		err = workdb.ChangeCategory(id, newCategory, dbpool)
 		if err != nil {
 			log.Println(err)
 			return err
@@ -91,7 +90,7 @@ func main() {
 			log.Println(err)
 			return err
 		}
-		err = workdb.DeleteCategory(id, conn)
+		err = workdb.DeleteCategory(id, dbpool)
 		if err != nil {
 			log.Println(err)
 			return err
@@ -105,12 +104,12 @@ func main() {
 	// ------- /tag --------------------------------------------
 
 	app.Get("/tag", func(c *fiber.Ctx) error {
-		message, err := workdb.SelectAllTags(conn)
+		tags, err := workdb.SelectAllTags(dbpool)
 		if err != nil {
 			log.Println(err)
 			return err
 		}
-		return c.SendString(message)
+		return c.JSON(tags)
 
 	})
 
@@ -120,7 +119,7 @@ func main() {
 			log.Println(err)
 			return err
 		}
-		err := workdb.InsertTags(newTag, conn)
+		err := workdb.InsertTags(newTag, dbpool)
 		if err != nil {
 			log.Println(err)
 			return err
@@ -134,12 +133,12 @@ func main() {
 			log.Println(err)
 			return err
 		}
-		tag, err := workdb.SelectAnTags(id, conn)
+		tag, err := workdb.SelectAnTags(id, dbpool)
 		if err != nil {
 			log.Println(err)
 			return err
 		}
-		return c.SendString(tag)
+		return c.JSON(tag)
 	})
 
 	app.Put("/tag/:id", func(c *fiber.Ctx) error {
@@ -153,7 +152,7 @@ func main() {
 			log.Println(err)
 			return err
 		}
-		err = workdb.ChangeTags(id, newTag, conn)
+		err = workdb.ChangeTags(id, newTag, dbpool)
 		if err != nil {
 			log.Println(err)
 			return err
@@ -169,7 +168,7 @@ func main() {
 			log.Println(err)
 			return err
 		}
-		err = workdb.DeleteTags(id, conn)
+		err = workdb.DeleteTags(id, dbpool)
 		if err != nil {
 			log.Println(err)
 			return err
@@ -184,12 +183,12 @@ func main() {
 	//
 	// ------- /newsCategory --------------------------------------------
 	app.Get("/newsCategory", func(c *fiber.Ctx) error {
-		message, err := workdb.SelectAllNewsCategory(conn)
+		newsCategories, err := workdb.SelectAllNewsCategory(dbpool)
 		if err != nil {
 			log.Println(err)
 			return err
 		}
-		return c.SendString(message)
+		return c.JSON(newsCategories)
 
 	})
 
@@ -199,7 +198,7 @@ func main() {
 			log.Println(err)
 			return err
 		}
-		err := workdb.InsertNewsCategory(newNewsCategory, conn)
+		err := workdb.InsertNewsCategory(newNewsCategory, dbpool)
 		if err != nil {
 			log.Println(err)
 			return err
@@ -213,12 +212,12 @@ func main() {
 			log.Println(err)
 			return err
 		}
-		tag, err := workdb.SelectAnNewsCategory(id, conn)
+		newCategory, err := workdb.SelectAnNewsCategory(id, dbpool)
 		if err != nil {
 			log.Println(err)
 			return err
 		}
-		return c.SendString(tag)
+		return c.JSON(newCategory)
 	})
 
 	app.Put("/newsCategory/:id", func(c *fiber.Ctx) error {
@@ -232,7 +231,7 @@ func main() {
 			log.Println(err)
 			return err
 		}
-		err = workdb.ChangeNewsCategory(id, newNewsCategory, conn)
+		err = workdb.ChangeNewsCategory(id, newNewsCategory, dbpool)
 		if err != nil {
 			log.Println(err)
 			return err
@@ -248,7 +247,7 @@ func main() {
 			log.Println(err)
 			return err
 		}
-		err = workdb.DeleteNewsCategory(id, conn)
+		err = workdb.DeleteNewsCategory(id, dbpool)
 		if err != nil {
 			log.Println(err)
 			return err
@@ -262,12 +261,12 @@ func main() {
 	//
 	// ------- /newsTag --------------------------------------------
 	app.Get("/newsTag", func(c *fiber.Ctx) error {
-		message, err := workdb.SelectAllNewsTag(conn)
+		newsTags, err := workdb.SelectAllNewsTag(dbpool)
 		if err != nil {
 			log.Println(err)
 			return err
 		}
-		return c.SendString(message)
+		return c.JSON(newsTags)
 
 	})
 
@@ -277,7 +276,7 @@ func main() {
 			log.Println(err)
 			return err
 		}
-		err := workdb.InsertNewsTag(newNewsTag, conn)
+		err := workdb.InsertNewsTag(newNewsTag, dbpool)
 		if err != nil {
 			log.Println(err)
 			return err
@@ -291,12 +290,12 @@ func main() {
 			log.Println(err)
 			return err
 		}
-		tag, err := workdb.SelectAnNewsTag(id, conn)
+		newTag, err := workdb.SelectAnNewsTag(id, dbpool)
 		if err != nil {
 			log.Println(err)
 			return err
 		}
-		return c.SendString(tag)
+		return c.JSON(newTag)
 	})
 
 	app.Put("/newsTag/:id", func(c *fiber.Ctx) error {
@@ -310,7 +309,7 @@ func main() {
 			log.Println(err)
 			return err
 		}
-		err = workdb.ChangeNewsTag(id, newNewsTag, conn)
+		err = workdb.ChangeNewsTag(id, newNewsTag, dbpool)
 		if err != nil {
 			log.Println(err)
 			return err
@@ -326,7 +325,7 @@ func main() {
 			log.Println(err)
 			return err
 		}
-		err = workdb.DeleteNewsTag(id, conn)
+		err = workdb.DeleteNewsTag(id, dbpool)
 		if err != nil {
 			log.Println(err)
 			return err
@@ -340,22 +339,22 @@ func main() {
 	//
 	// ------- /news --------------------------------------------
 	app.Get("/news", func(c *fiber.Ctx) error {
-		message, err := workdb.SelectAllNews(conn)
+		news, err := workdb.SelectAllNews(dbpool)
 		if err != nil {
 			log.Println(err)
 			return err
 		}
-		return c.SendString(message)
+		return c.JSON(news)
 
 	})
 
 	app.Post("/news", func(c *fiber.Ctx) error {
-		newNews := new(model.News)
-		if err := c.BodyParser(newNews); err != nil {
+		news := new(model.NewNews)
+		if err := c.BodyParser(news); err != nil {
 			log.Println(err)
 			return err
 		}
-		err := workdb.InsertNews(newNews, conn)
+		err := workdb.InsertNews(news, dbpool)
 		if err != nil {
 			log.Println(err)
 			return err
@@ -369,12 +368,12 @@ func main() {
 			log.Println(err)
 			return err
 		}
-		tag, err := workdb.SelectAnNews(id, conn)
+		news, err := workdb.SelectAnNews(id, dbpool)
 		if err != nil {
 			log.Println(err)
 			return err
 		}
-		return c.SendString(tag)
+		return c.JSON(news)
 	})
 
 	app.Put("/news/:id", func(c *fiber.Ctx) error {
@@ -388,7 +387,7 @@ func main() {
 			log.Println(err)
 			return err
 		}
-		err = workdb.ChangeNews(id, newNews, conn)
+		err = workdb.ChangeNews(id, newNews, dbpool)
 		if err != nil {
 			log.Println(err)
 			return err
@@ -404,7 +403,7 @@ func main() {
 			log.Println(err)
 			return err
 		}
-		err = workdb.DeleteNews(id, conn)
+		err = workdb.DeleteNews(id, dbpool)
 		if err != nil {
 			log.Println(err)
 			return err
