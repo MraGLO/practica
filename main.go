@@ -7,7 +7,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 
-	"github.com/MraGLO/practica/model"
+	"github.com/MraGLO/practica/pkg/model"
 	"github.com/MraGLO/practica/workdb"
 )
 

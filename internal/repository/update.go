@@ -12,7 +12,7 @@ func (d *DatabaseRepo) UpdateCategory(id int, category *model.Category) (err err
 	return
 }
 
-func (d *DatabaseRepo) UpdateTags(id int, tags *model.Tag) (err error) {
+func (d *DatabaseRepo) UpdateTag(id int, tags *model.Tag) (err error) {
 	_, err = d.db.Exec(context.Background(), "UPDATE tags SET name = $1, name_en = $2 WHERE id = $3", tags.TagName, tags.TagNameEN, id)
 	return
 }

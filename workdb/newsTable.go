@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/MraGLO/practica/model"
+	"github.com/MraGLO/practica/pkg/model"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
