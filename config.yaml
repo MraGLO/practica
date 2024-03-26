@@ -6,5 +6,5 @@ db:
  dbname: NewsDB
  user: postgres
  password: 1234
- sslmode: Verify-full
+ sslmode: disable
  poolmaxconns: 1

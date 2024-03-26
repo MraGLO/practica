@@ -12,7 +12,7 @@ import (
 func main() {
 	app := app.App{}
 
-	app.Init("github.com/MraGLO/practica/config.yaml")
+	app.Init("../config.yaml")
 
 	defer app.Close()
 
