@@ -6,7 +6,7 @@ func (s *Services) UpdateCategory(id int, category model.Category) error {
 	return s.Database.db.UpdateCategory(id, &category)
 }
 
-func (s *Services) UpdateTags(id int, tags model.Tag) error {
+func (s *Services) UpdateTag(id int, tags model.Tag) error {
 	return s.Database.db.UpdateTag(id, &tags)
 }
 

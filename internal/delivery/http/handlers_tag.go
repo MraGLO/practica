@@ -10,51 +10,51 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func (h *Handlers) GetCategories(c *fiber.Ctx) error {
-	categories, err := h.services.GetAllCategories()
+func (h *Handlers) GetTags(c *fiber.Ctx) error {
+	tags, err := h.services.GetAllTags()
 	if err != nil {
 		log.Panicln(err)
 		return c.SendStatus(500)
 	}
-	return c.JSON(categories)
+	return c.JSON(tags)
 }
 
-func (h *Handlers) GetCategoryById(c *fiber.Ctx) error {
-	id, err := strconv.Atoi(c.Params("categoryID"))
+func (h *Handlers) GetTagById(c *fiber.Ctx) error {
+	id, err := strconv.Atoi(c.Params("tagID"))
 	if err != nil || id <= 0 {
 		log.Panicln(err)
 		return c.SendStatus(400)
 	}
 
-	category, err := h.services.GetCategoryByID(id)
+	tag, err := h.services.GetTagByID(id)
 	if err != nil {
 		log.Panicln(err)
 		return c.SendStatus(500)
 	}
 
-	if category.ID == 0 {
+	if tag.ID == 0 {
 		log.Panicln(err)
 		return c.SendStatus(404)
 	}
 
-	return c.JSON(category)
+	return c.JSON(tag)
 }
 
-func (h *Handlers) AddCategory(c *fiber.Ctx) error {
-	var category model.Category
+func (h *Handlers) AddTag(c *fiber.Ctx) error {
+	var tag model.Tag
 
-	err := json.Unmarshal(c.Body(), &category)
+	err := json.Unmarshal(c.Body(), &tag)
 	if err != nil {
 		log.Panicln(err)
 		return c.SendStatus(400)
 	}
 
-	if isValidateCategoryData(category) != nil {
+	if isValidateTagData(tag) != nil {
 		log.Panicln(err)
 		return c.SendStatus(400)
 	}
 
-	err = h.services.AddCategory(category)
+	err = h.services.AddTags(tag)
 	if err != nil {
 		log.Panicln(err)
 		return c.SendStatus(500)
@@ -64,27 +64,27 @@ func (h *Handlers) AddCategory(c *fiber.Ctx) error {
 	return c.SendString("Успешно добавлено")
 }
 
-func (h *Handlers) UpdateCategory(c *fiber.Ctx) error {
-	id, err := c.ParamsInt("categoryID")
+func (h *Handlers) UpdateTag(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("tagID")
 	if err != nil || id <= 0 {
 		log.Panicln(err)
 		return c.SendStatus(400)
 	}
 
-	var category model.Category
+	var tag model.Tag
 
-	err = json.Unmarshal(c.Body(), &category)
+	err = json.Unmarshal(c.Body(), &tag)
 	if err != nil {
 		log.Panicln(err)
 		return c.SendStatus(400)
 	}
 
-	if isValidateCategoryData(category) != nil {
+	if isValidateTagData(tag) != nil {
 		log.Panicln(err)
 		return c.SendStatus(400)
 	}
 
-	err = h.services.UpdateCategory(id, category)
+	err = h.services.UpdateTag(id, tag)
 	if err != nil {
 		log.Panicln(err)
 		return c.SendStatus(500)
@@ -94,17 +94,17 @@ func (h *Handlers) UpdateCategory(c *fiber.Ctx) error {
 	return c.SendString("Успешно обновлено")
 }
 
-func isValidateCategoryData(category model.Category) (err error) {
-	str, b := isValidString(category.CategoryName)
-	if category.CategoryName == "" || b {
+func isValidateTagData(tag model.Tag) (err error) {
+	str, b := isValidString(tag.TagName)
+	if tag.TagName == "" || b {
 		str = fmt.Sprintf("в русском названии: %s", str)
 		err = fmt.Errorf(str)
 		log.Panicln(err)
 		return
 	}
 
-	str, b = isValidString(category.CategoryNameEN)
-	if category.CategoryNameEN == "" || b {
+	str, b = isValidString(tag.TagNameEN)
+	if tag.TagNameEN == "" || b {
 		str = fmt.Sprintf("в английском названии: %s", str)
 		err = fmt.Errorf(str)
 		log.Panicln(err)
@@ -113,14 +113,14 @@ func isValidateCategoryData(category model.Category) (err error) {
 	return
 }
 
-func (h *Handlers) DeleteCategory(c *fiber.Ctx) error {
-	id, err := c.ParamsInt("categoryID")
+func (h *Handlers) DeleteTag(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("tagID")
 	if err != nil || id <= 0 {
 		log.Panicln(err)
 		return c.SendStatus(400)
 	}
 
-	found, err := h.services.DeleteCategory(id)
+	found, err := h.services.DeleteTag(id)
 	if err != nil {
 		log.Panicln(err)
 		return c.SendStatus(500)
