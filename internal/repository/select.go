@@ -15,7 +15,7 @@ func (d *DatabaseRepo) SelectAllCategories() (categories []model.Category, err e
 	defer rows.Close()
 
 	for rows.Next() {
-		rows.Scan(&tmp.ID, &tmp.CategoryName, &tmp.CategoryNameEN)
+		err = rows.Scan(&tmp.ID, &tmp.CategoryName, &tmp.CategoryNameEN)
 		if err != nil {
 			return
 		}
@@ -34,7 +34,7 @@ func (d *DatabaseRepo) SelectCategoryByID(id int) (category model.Category, err 
 	defer rows.Close()
 
 	for rows.Next() {
-		rows.Scan(&category.ID, &category.CategoryName, &category.CategoryNameEN)
+		err = rows.Scan(&category.ID, &category.CategoryName, &category.CategoryNameEN)
 		if err != nil {
 			return
 		}
@@ -52,7 +52,7 @@ func (d *DatabaseRepo) SelectAllTags() (tags []model.Tag, err error) {
 	defer rows.Close()
 
 	for rows.Next() {
-		rows.Scan(&tmp.ID, &tmp.TagName, &tmp.TagNameEN)
+		err = rows.Scan(&tmp.ID, &tmp.TagName, &tmp.TagNameEN)
 		if err != nil {
 			return
 		}
@@ -70,7 +70,7 @@ func (d *DatabaseRepo) SelectTagByID(id int) (tag model.Tag, err error) {
 	defer rows.Close()
 
 	for rows.Next() {
-		rows.Scan(&tag.ID, &tag.TagName, &tag.TagNameEN)
+		err = rows.Scan(&tag.ID, &tag.TagName, &tag.TagNameEN)
 		if err != nil {
 			return
 		}
@@ -88,7 +88,7 @@ func (d *DatabaseRepo) SelectAllNewsCategories() (newsCategories []model.NewsCat
 	defer rows.Close()
 
 	for rows.Next() {
-		rows.Scan(&tmp.ID, &tmp.NewsID, &tmp.CategoryID)
+		err = rows.Scan(&tmp.ID, &tmp.NewsID, &tmp.CategoryID)
 		if err != nil {
 			return
 		}
@@ -106,7 +106,7 @@ func (d *DatabaseRepo) SelectNewsCategoryByID(id int) (newsCategory model.NewsCa
 	defer rows.Close()
 
 	for rows.Next() {
-		rows.Scan(&newsCategory.ID, &newsCategory.NewsID, &newsCategory.CategoryID)
+		err = rows.Scan(&newsCategory.ID, &newsCategory.NewsID, &newsCategory.CategoryID)
 		if err != nil {
 			return
 		}
@@ -124,7 +124,7 @@ func (d *DatabaseRepo) SelectAllNewsTags() (newsTags []model.NewsTag, err error)
 	defer rows.Close()
 
 	for rows.Next() {
-		rows.Scan(&tmp.ID, &tmp.NewsID, &tmp.TagID)
+		err = rows.Scan(&tmp.ID, &tmp.NewsID, &tmp.TagID)
 		if err != nil {
 			return
 		}
@@ -142,7 +142,7 @@ func (d *DatabaseRepo) SelectNewsTagByID(id int) (newsTag model.NewsTag, err err
 	defer rows.Close()
 
 	for rows.Next() {
-		rows.Scan(&newsTag.ID, &newsTag.NewsID, &newsTag.TagID)
+		err = rows.Scan(&newsTag.ID, &newsTag.NewsID, &newsTag.TagID)
 		if err != nil {
 			return
 		}
@@ -159,7 +159,7 @@ func (d *DatabaseRepo) SelectAllNews() (news []model.News, err error) {
 	defer rows.Close()
 
 	for rows.Next() {
-		rows.Scan(&tmp.ID, &tmp.Shortname, &tmp.Body, &tmp.Author, &tmp.PublishedTime, &tmp.ChangedTime, &tmp.Published, &tmp.BodyFull)
+		err = rows.Scan(&tmp.ID, &tmp.Shortname, &tmp.Body, &tmp.Author, &tmp.PublishedTime, &tmp.ChangedTime, &tmp.Published, &tmp.BodyFull)
 		if err != nil {
 			return
 		}
@@ -176,7 +176,7 @@ func (d *DatabaseRepo) SelectNewsByID(id int) (news model.News, err error) {
 	defer rows.Close()
 
 	for rows.Next() {
-		rows.Scan(&news.ID, &news.Shortname, &news.Body, &news.Author, &news.PublishedTime, &news.ChangedTime, &news.Published, &news.BodyFull)
+		err = rows.Scan(&news.ID, &news.Shortname, &news.Body, &news.Author, &news.PublishedTime, &news.ChangedTime, &news.Published, &news.BodyFull)
 		if err != nil {
 			return
 		}
