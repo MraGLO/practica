@@ -65,7 +65,7 @@ func (h *Handlers) AddNewsCategory(c *fiber.Ctx) error {
 }
 
 func (h *Handlers) UpdateNewsCategory(c *fiber.Ctx) error {
-	id, err := c.ParamsInt("newCategoryID")
+	id, err := c.ParamsInt("newsCategoryID")
 	if err != nil || id <= 0 {
 		log.Panicln(err)
 		return c.SendStatus(400)
