@@ -9,8 +9,11 @@ import (
 func InitRoutes(router *fiber.App) {
 	router.Use(recover.New())
 
+	router.Static("/", "./PublicationPage")
+
 	router.Use(cors.New(cors.Config{
 		AllowHeaders:  "*",
 		ExposeHeaders: "POST,GET,PUT,DELETE",
 	}))
+
 }

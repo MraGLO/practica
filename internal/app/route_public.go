@@ -7,5 +7,5 @@ import (
 )
 
 func PublicRoutes(router *fiber.App, handlers *http.Handlers) {
-	router.Post("/newNews", handlers.AddNews)
+	router.Static("/", "./PublicationPage")
 }

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>Публикация статьи</title>
+        <link rel="stylesheet" href = "normalize.css">
+        <link rel="stylesheet" href = "publication.css">
+    </head>
+    <body>
+        <form class="publication-form" action="#" method="get" enctype="multipart/form-data">
+            <div>
+                <h2>shortname</h2>
+                <textarea tabindex="1" name="shortname"></textarea>
+            </div>
+            <div>
+                <h2>body</h2>
+                <textarea tabindex="2" name="body"></textarea>
+            </div>
+            <div>
+                <h2>body_full</h2>
+                <textarea tabindex="3" name="body_full"></textarea>
+            </div>
+            <div>
+                <h2>author</h2>
+                <textarea tabindex="4" name="author"></textarea>
+            </div>
+            <h2>categories</h2>
+            <div class="selected__list" name="categories"></div>
+            <div class="dropdown">
+                <input class="dropdown__input"></input>
+                <ul class="dropdown__list" name = "categories"></ul>
+            </div>
+            <h2>tags</h2>
+            <div class="selected__list" name="tags"></div>
+            <div class="dropdown">
+                <input class="dropdown__input"></input>
+                <ul class="dropdown__list" name="tags"></ul>
+            </div>
+            <div class="buttons__container">
+                <button class="submit__buttons" tabindex="7" type="submit">Опубликовать</button>
+                <button class="submit__buttons" tabindex="8" type="reset">Очистить</button>
+            </div>
+        </form>
+        
+        <script type="module" src="./scripts/publicate.js"></script>
+        <script type="module" src="./scripts/select.js"></script>
+    </body>
+</html>
