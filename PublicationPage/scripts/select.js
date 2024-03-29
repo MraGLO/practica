@@ -2,12 +2,11 @@ import { getData } from './server.js';
 
 async function parseData(url, selectName) {
     const data = await getData(url);
-    const items = data.splice(0, 5);
     const selectElement = document.querySelector(`ul[name="${selectName}"]`);
 
-    items.forEach(item => {
+    data.forEach(item => {
         selectElement.innerHTML += `
-        <li class="dropdown__list-item" value="${item.id}">${item.$({selectName}+"Name")}</li>
+        <li class="dropdown__list-item" value="${item.id}">${item[`${selectName}Name`]}</li>
         `;
     });
     sortListItems(selectElement);
@@ -93,5 +92,5 @@ document.querySelectorAll('.dropdown').forEach(function (dropdownWrapper) {
     });
 });
 
-parseData('GET/category', 'categories');
-parseData('GET/tags', 'tags');
+parseData('/category/all', 'category');
+parseData('/tag/all', 'tag');

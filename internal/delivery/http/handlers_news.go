@@ -13,7 +13,7 @@ import (
 func (h *Handlers) GetNews(c *fiber.Ctx) error {
 	news, err := h.services.GetAllNews()
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(500)
 	}
 	return c.JSON(news)
@@ -22,18 +22,18 @@ func (h *Handlers) GetNews(c *fiber.Ctx) error {
 func (h *Handlers) GetNewsById(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("newsID"))
 	if err != nil || id <= 0 {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
 	news, err := h.services.GetNewsByID(id)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(500)
 	}
 
 	if news.ID == 0 {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(404)
 	}
 
@@ -45,18 +45,18 @@ func (h *Handlers) AddNews(c *fiber.Ctx) error {
 
 	err := json.Unmarshal(c.Body(), &news)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
 	if isValidateNewNewsData(news) != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
 	err = h.services.AddNews(news)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(500)
 	}
 
@@ -67,7 +67,7 @@ func (h *Handlers) AddNews(c *fiber.Ctx) error {
 func (h *Handlers) UpdateNews(c *fiber.Ctx) error {
 	id, err := c.ParamsInt("newsID")
 	if err != nil || id <= 0 {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
@@ -75,18 +75,18 @@ func (h *Handlers) UpdateNews(c *fiber.Ctx) error {
 
 	err = json.Unmarshal(c.Body(), &news)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
 	if isValidateNewsData(news) != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
 	err = h.services.UpdateNews(id, news)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(500)
 	}
 
@@ -98,25 +98,25 @@ func isValidateNewNewsData(news model.NewNews) (err error) {
 	if news.Shortname == "" || b {
 		str = fmt.Sprintf("в shortname: %s", str)
 		err = fmt.Errorf(str)
-		log.Panicln(err)
+		log.Println(err)
 		return
 	}
 
 	if news.Body == "" {
 		err = fmt.Errorf("body пуст")
-		log.Panicln(err)
+		log.Println(err)
 		return
 	}
 
 	if len(news.Categories) == 0 {
 		err = fmt.Errorf("categories пуст")
-		log.Panicln(err)
+		log.Println(err)
 		return
 	}
 
 	if len(news.Tags) == 0 {
 		err = fmt.Errorf("tags пуст")
-		log.Panicln(err)
+		log.Println(err)
 		return
 	}
 
@@ -128,13 +128,13 @@ func isValidateNewsData(news model.News) (err error) {
 	if news.Shortname == "" || b {
 		str = fmt.Sprintf("в shortname: %s", str)
 		err = fmt.Errorf(str)
-		log.Panicln(err)
+		log.Println(err)
 		return
 	}
 
 	if news.Body == "" {
 		err = fmt.Errorf("body пуст")
-		log.Panicln(err)
+		log.Println(err)
 		return
 	}
 
@@ -144,18 +144,18 @@ func isValidateNewsData(news model.News) (err error) {
 func (h *Handlers) DeleteNews(c *fiber.Ctx) error {
 	id, err := c.ParamsInt("newsID")
 	if err != nil || id <= 0 {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
 	found, err := h.services.DeleteNews(id)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(500)
 	}
 
 	if !found {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(404)
 	}
 

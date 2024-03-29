@@ -17,10 +17,12 @@ const publicate = (url) => {
 
         const formData = new FormData(publicationForm);
 
-        const categories = collectSelectedOptions('categories');
-        const tags = collectSelectedOptions('tags');
-        formData.set('categories', JSON.stringify(categories));
-        formData.set('tags', JSON.stringify(tags));
+        var categories = collectSelectedOptions('category');
+        var tags = collectSelectedOptions('tag');
+        categories = categories.map(category => Number(category));
+        tags = tags.map(tag => Number(tag));
+        formData.set('category', JSON.stringify(categories));
+        formData.set('tag', JSON.stringify(tags));
 
         sendData(url, formData)
             .then(() => {
@@ -43,4 +45,4 @@ const publicate = (url) => {
     }
 }
 
-publicate('Post/news');    
+publicate('/newNews/add');    

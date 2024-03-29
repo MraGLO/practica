@@ -13,7 +13,7 @@ import (
 func (h *Handlers) GetNewsCategories(c *fiber.Ctx) error {
 	newsCategories, err := h.services.GetAllNewsCategories()
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(500)
 	}
 	return c.JSON(newsCategories)
@@ -22,18 +22,18 @@ func (h *Handlers) GetNewsCategories(c *fiber.Ctx) error {
 func (h *Handlers) GetNewsCategoryById(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("newsCategoryID"))
 	if err != nil || id <= 0 {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
 	newCategory, err := h.services.GetNewsCategoryByID(id)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(500)
 	}
 
 	if newCategory.ID == 0 {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(404)
 	}
 
@@ -45,18 +45,18 @@ func (h *Handlers) AddNewsCategory(c *fiber.Ctx) error {
 
 	err := json.Unmarshal(c.Body(), &newCategory)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
 	if isValidateNewsCategoryData(newCategory) != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
 	err = h.services.AddNewsCategory(newCategory)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(500)
 	}
 
@@ -67,7 +67,7 @@ func (h *Handlers) AddNewsCategory(c *fiber.Ctx) error {
 func (h *Handlers) UpdateNewsCategory(c *fiber.Ctx) error {
 	id, err := c.ParamsInt("newsCategoryID")
 	if err != nil || id <= 0 {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
@@ -75,18 +75,18 @@ func (h *Handlers) UpdateNewsCategory(c *fiber.Ctx) error {
 
 	err = json.Unmarshal(c.Body(), &newsCategory)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
 	if isValidateNewsCategoryData(newsCategory) != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
 	err = h.services.UpdateNewsCategory(id, newsCategory)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(500)
 	}
 
@@ -97,13 +97,13 @@ func (h *Handlers) UpdateNewsCategory(c *fiber.Ctx) error {
 func isValidateNewsCategoryData(newsCategory model.NewsCategory) (err error) {
 	if newsCategory.CategoryID <= 0 {
 		err = fmt.Errorf("значение id категории невозможно")
-		log.Panicln(err)
+		log.Println(err)
 		return
 	}
 
 	if newsCategory.NewsID <= 0 {
 		err = fmt.Errorf("значение id новости невозможно")
-		log.Panicln(err)
+		log.Println(err)
 		return
 	}
 	return
@@ -112,18 +112,18 @@ func isValidateNewsCategoryData(newsCategory model.NewsCategory) (err error) {
 func (h *Handlers) DeleteNewsCategory(c *fiber.Ctx) error {
 	id, err := c.ParamsInt("newsCategoryId")
 	if err != nil || id <= 0 {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
 	found, err := h.services.DeleteNewsCategory(id)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(500)
 	}
 
 	if !found {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(404)
 	}
 

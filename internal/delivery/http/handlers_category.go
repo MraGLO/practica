@@ -13,7 +13,7 @@ import (
 func (h *Handlers) GetCategories(c *fiber.Ctx) error {
 	categories, err := h.services.GetAllCategories()
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(500)
 	}
 	return c.JSON(categories)
@@ -22,18 +22,18 @@ func (h *Handlers) GetCategories(c *fiber.Ctx) error {
 func (h *Handlers) GetCategoryById(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("categoryID"))
 	if err != nil || id <= 0 {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
 	category, err := h.services.GetCategoryByID(id)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(500)
 	}
 
 	if category.ID == 0 {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(404)
 	}
 
@@ -45,18 +45,18 @@ func (h *Handlers) AddCategory(c *fiber.Ctx) error {
 
 	err := json.Unmarshal(c.Body(), &category)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
 	if isValidateCategoryData(category) != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
 	err = h.services.AddCategory(category)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(500)
 	}
 
@@ -67,7 +67,7 @@ func (h *Handlers) AddCategory(c *fiber.Ctx) error {
 func (h *Handlers) UpdateCategory(c *fiber.Ctx) error {
 	id, err := c.ParamsInt("categoryID")
 	if err != nil || id <= 0 {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
@@ -75,18 +75,18 @@ func (h *Handlers) UpdateCategory(c *fiber.Ctx) error {
 
 	err = json.Unmarshal(c.Body(), &category)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
 	if isValidateCategoryData(category) != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
 	err = h.services.UpdateCategory(id, category)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(500)
 	}
 
@@ -99,7 +99,7 @@ func isValidateCategoryData(category model.Category) (err error) {
 	if category.CategoryName == "" || b {
 		str = fmt.Sprintf("в русском названии: %s", str)
 		err = fmt.Errorf(str)
-		log.Panicln(err)
+		log.Println(err)
 		return
 	}
 
@@ -107,7 +107,7 @@ func isValidateCategoryData(category model.Category) (err error) {
 	if category.CategoryNameEN == "" || b {
 		str = fmt.Sprintf("в английском названии: %s", str)
 		err = fmt.Errorf(str)
-		log.Panicln(err)
+		log.Println(err)
 		return
 	}
 	return
@@ -116,18 +116,18 @@ func isValidateCategoryData(category model.Category) (err error) {
 func (h *Handlers) DeleteCategory(c *fiber.Ctx) error {
 	id, err := c.ParamsInt("categoryID")
 	if err != nil || id <= 0 {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
 	found, err := h.services.DeleteCategory(id)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(500)
 	}
 
 	if !found {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(404)
 	}
 

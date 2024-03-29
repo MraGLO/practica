@@ -13,7 +13,7 @@ import (
 func (h *Handlers) GetNewsTags(c *fiber.Ctx) error {
 	newsTags, err := h.services.GetAllNewsTags()
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(500)
 	}
 	return c.JSON(newsTags)
@@ -22,18 +22,18 @@ func (h *Handlers) GetNewsTags(c *fiber.Ctx) error {
 func (h *Handlers) GetNewsTagById(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("newsTagID"))
 	if err != nil || id <= 0 {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
 	newTag, err := h.services.GetNewsTagByID(id)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(500)
 	}
 
 	if newTag.ID == 0 {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(404)
 	}
 
@@ -45,18 +45,18 @@ func (h *Handlers) AddNewsTag(c *fiber.Ctx) error {
 
 	err := json.Unmarshal(c.Body(), &newsTag)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
 	if isValidateNewsTagData(newsTag) != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
 	err = h.services.AddNewsTag(newsTag)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(500)
 	}
 
@@ -67,7 +67,7 @@ func (h *Handlers) AddNewsTag(c *fiber.Ctx) error {
 func (h *Handlers) UpdateNewsTag(c *fiber.Ctx) error {
 	id, err := c.ParamsInt("newsTagID")
 	if err != nil || id <= 0 {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
@@ -75,18 +75,18 @@ func (h *Handlers) UpdateNewsTag(c *fiber.Ctx) error {
 
 	err = json.Unmarshal(c.Body(), &newsTag)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
 	if isValidateNewsTagData(newsTag) != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
 	err = h.services.UpdateNewsTag(id, newsTag)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(500)
 	}
 
@@ -97,13 +97,13 @@ func (h *Handlers) UpdateNewsTag(c *fiber.Ctx) error {
 func isValidateNewsTagData(newsTag model.NewsTag) (err error) {
 	if newsTag.TagID <= 0 {
 		err = fmt.Errorf("значение id тега невозможно")
-		log.Panicln(err)
+		log.Println(err)
 		return
 	}
 
 	if newsTag.NewsID <= 0 {
 		err = fmt.Errorf("значение id новости невозможно")
-		log.Panicln(err)
+		log.Println(err)
 		return
 	}
 	return
@@ -112,18 +112,18 @@ func isValidateNewsTagData(newsTag model.NewsTag) (err error) {
 func (h *Handlers) DeleteNewsTag(c *fiber.Ctx) error {
 	id, err := c.ParamsInt("newsTagId")
 	if err != nil || id <= 0 {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(400)
 	}
 
 	found, err := h.services.DeleteNewsTag(id)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(500)
 	}
 
 	if !found {
-		log.Panicln(err)
+		log.Println(err)
 		return c.SendStatus(404)
 	}
 
