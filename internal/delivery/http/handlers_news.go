@@ -108,6 +108,12 @@ func isValidateNewNewsData(news model.NewNews) (err error) {
 		return
 	}
 
+	if news.PublishedTime == "" {
+		err = fmt.Errorf("publishedTime пуст")
+		log.Println(err)
+		return
+	}
+
 	if len(news.Categories) == 0 {
 		err = fmt.Errorf("categories пуст")
 		log.Println(err)

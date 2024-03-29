@@ -23,7 +23,7 @@ export const sendData = async (url, data) => {
             throw new Error(`Ошибка по адресу ${url}, статус ошибки ${response.status}: ${response.statusText}`);
         }
 
-        return await response.json();
+        return await response;
     } catch (error) {
         console.error('Ошибка при отправке данных:', error);
         throw error;

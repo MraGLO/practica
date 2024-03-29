@@ -2,7 +2,6 @@ import { sendData } from './server.js';
 
 //сбор выбранных элементов списка
 function collectSelectedOptions(selectName) {
-    // Используем класс для поиска выбранных элементов, а не имя элемента ul
     const selectedItems = document.querySelectorAll(`.selected__list[name="${selectName}"] .selected__list-item`);
     const selectedValues = Array.from(selectedItems).map(item => item.value);
     return selectedValues;
@@ -15,16 +14,26 @@ const publicate = (url) => {
     publicationForm.addEventListener('submit', e => {
         e.preventDefault();
 
-        const formData = new FormData(publicationForm);
+       // Собираем данные из формы в объект
+       const formDataObj = {};
+
+       // Сбор данных из формы
+       const formData = new FormData(publicationForm);
+       for (let [key, value] of formData.entries()) {
+           formDataObj[key] = value;
+       }
 
         var categories = collectSelectedOptions('category');
         var tags = collectSelectedOptions('tag');
         categories = categories.map(category => Number(category));
         tags = tags.map(tag => Number(tag));
-        formData.set('category', JSON.stringify(categories));
-        formData.set('tag', JSON.stringify(tags));
 
-        sendData(url, formData)
+        // Добавляем данные в объект
+        formDataObj.category = categories;
+        formDataObj.tag = tags;
+
+        // Отправляем данные на сервер
+        sendData(url, formDataObj)
             .then(() => {
                 publicationForm.reset();
                 clearSelectedOptions();
@@ -45,4 +54,4 @@ const publicate = (url) => {
     }
 }
 
-publicate('/newNews/add');    
+publicate('/newNews/add');

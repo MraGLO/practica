@@ -42,8 +42,8 @@ func (d *DatabaseRepo) InsertNews(news *model.NewNews) (err error) {
 	}()
 
 	var id int
-	if row, err := tx.Query(context.Background(), "INSERT INTO news(shortname, body, author, published, body_full) VALUES($1, $2, $3, $4, $5) RETURNING id",
-		news.Shortname, news.Body, news.Author, true, news.BodyFull); err != nil {
+	if row, err := tx.Query(context.Background(), "INSERT INTO news(shortname, body, author, published_time, published, body_full) VALUES($1, $2, $3, $4, $5, $6) RETURNING id",
+		news.Shortname, news.Body, news.Author, news.PublishedTime, true, news.BodyFull); err != nil {
 		return err
 	} else {
 		defer row.Close()
