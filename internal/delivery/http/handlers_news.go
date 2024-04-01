@@ -114,12 +114,12 @@ func isValidateNewNewsData(news model.NewNews) (isLenCategories bool, isLenTags 
 		return
 	}
 
-	if len(news.Categories) == 0 {
-		isLenCategories = false
+	if len(news.Categories) != 0 {
+		isLenCategories = true
 	}
 
-	if len(news.Tags) == 0 {
-		isLenTags = false
+	if len(news.Tags) != 0 {
+		isLenTags = true
 	}
 
 	return
