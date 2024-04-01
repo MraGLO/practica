@@ -1,4 +1,6 @@
 import { sendData } from './server.js';
+import { parseData } from './select.js';
+import { clearDropdownList } from './select.js';
 
 //сбор выбранных элементов списка
 function collectSelectedOptions(selectName) {
@@ -37,6 +39,10 @@ const publicate = (url) => {
             .then(() => {
                 publicationForm.reset();
                 clearSelectedOptions();
+                clearDropdownList('category');
+                clearDropdownList('tag');
+                parseData('/category/all', 'category');
+                parseData('/tag/all', 'tag');
             })
             .catch((err) => {
                 console.log(err);

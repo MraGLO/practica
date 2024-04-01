@@ -1,6 +1,6 @@
 import { getData } from './server.js';  
 
-async function parseData(url, selectName) {
+export async function parseData(url, selectName) {
     const data = await getData(url);
     const selectElement = document.querySelector(`ul[name="${selectName}"]`);
 
@@ -38,7 +38,10 @@ function addButtonClickHandler(button, clickedItem, listName) {
     });
 }
 
-
+export function clearDropdownList(selectName) {
+    const selectElement = document.querySelector(`ul[name="${selectName}"]`);
+    selectElement.innerHTML = '';
+}
 
 // Выбор списка
 document.querySelectorAll('.dropdown').forEach(function (dropdownWrapper) {
