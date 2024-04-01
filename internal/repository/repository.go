@@ -22,7 +22,7 @@ type Database interface {
 	InsertTags(tags *model.Tag) (err error)
 	InsertNewsCategory(newsCategory *model.NewsCategory) (err error)
 	InsertNewsTag(newsTag *model.NewsTag) (err error)
-	InsertNews(news *model.NewNews) (err error)
+	InsertNews(news *model.NewNews, isLenCategories bool, isLenTags bool) (err error)
 
 	UpdateCategory(id int, category *model.Category) (err error)
 	UpdateTag(id int, tags *model.Tag) (err error)

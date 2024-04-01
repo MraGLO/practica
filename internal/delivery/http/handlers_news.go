@@ -48,13 +48,13 @@ func (h *Handlers) AddNews(c *fiber.Ctx) error {
 		log.Println(err)
 		return c.SendStatus(400)
 	}
-
-	if isValidateNewNewsData(news) != nil {
+	isLenCategories, isLenTags, err := isValidateNewNewsData(news)
+	if err != nil {
 		log.Println(err)
 		return c.SendStatus(400)
 	}
 
-	err = h.services.AddNews(news)
+	err = h.services.AddNews(news, isLenCategories, isLenTags)
 	if err != nil {
 		log.Println(err)
 		return c.SendStatus(500)
@@ -93,7 +93,7 @@ func (h *Handlers) UpdateNews(c *fiber.Ctx) error {
 	c.Status(201)
 	return c.SendString("Успешно обновлено")
 }
-func isValidateNewNewsData(news model.NewNews) (err error) {
+func isValidateNewNewsData(news model.NewNews) (isLenCategories bool, isLenTags bool, err error) {
 	str, b := isValidString(news.Shortname)
 	if news.Shortname == "" || b {
 		str = fmt.Sprintf("в shortname: %s", str)
@@ -115,15 +115,11 @@ func isValidateNewNewsData(news model.NewNews) (err error) {
 	}
 
 	if len(news.Categories) == 0 {
-		err = fmt.Errorf("categories пуст")
-		log.Println(err)
-		return
+		isLenCategories = false
 	}
 
 	if len(news.Tags) == 0 {
-		err = fmt.Errorf("tags пуст")
-		log.Println(err)
-		return
+		isLenTags = false
 	}
 
 	return

@@ -18,6 +18,6 @@ func (s *Services) AddNewsTag(newsTag model.NewsTag) error {
 	return s.Database.db.InsertNewsTag(&newsTag)
 }
 
-func (s *Services) AddNews(news model.NewNews) error {
-	return s.Database.db.InsertNews(&news)
+func (s *Services) AddNews(news model.NewNews, isLenCategories bool, isLenTags bool) error {
+	return s.Database.db.InsertNews(&news, isLenCategories, isLenTags)
 }
