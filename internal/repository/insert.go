@@ -45,8 +45,8 @@ func (d *DatabaseRepo) InsertNews(news *model.NewNews, isLenCategories bool, isL
 		news.Shortname, news.Body, news.Author, news.PublishedTime, true, news.BodyFull, news.TopicImageSrc, news.TopicImageSrcSet); err != nil {
 		return err
 	} else {
+		defer row.Close()
 		if isLenTags || isLenCategories != false {
-			defer row.Close()
 			for row.Next() {
 				row.Scan(&id)
 			}
