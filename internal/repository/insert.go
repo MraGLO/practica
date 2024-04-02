@@ -40,37 +40,33 @@ func (d *DatabaseRepo) InsertNews(news *model.NewNews, isLenCategories bool, isL
 			return
 		}
 	}()
-	if isLenCategories || isLenTags != false {
-		var id int
-		if row, err := tx.Query(context.Background(), "INSERT INTO news(shortname, body, author, published_time, published, body_full, topicimage_src, topicimage_srcset) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id",
-			news.Shortname, news.Body, news.Author, news.PublishedTime, true, news.BodyFull, news.TopicImageSrc, news.TopicImageSrcSet); err != nil {
-			return err
-		} else {
+	var id int
+	if row, err := tx.Query(context.Background(), "INSERT INTO news(shortname, body, author, published_time, published, body_full, topicimage_src, topicimage_srcset) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id",
+		news.Shortname, news.Body, news.Author, news.PublishedTime, true, news.BodyFull, news.TopicImageSrc, news.TopicImageSrcSet); err != nil {
+		return err
+	} else {
+		if isLenTags || isLenCategories != true {
 			defer row.Close()
 			for row.Next() {
 				row.Scan(&id)
 			}
 		}
-		if isLenCategories {
-			for _, categoryID := range news.Categories {
-				if _, err := tx.Exec(context.Background(), "INSERT INTO news_category(news_id, category_id) VALUES($1, $2)",
-					id, categoryID); err != nil {
-					return err
-				}
+
+	}
+	if isLenCategories {
+		for _, categoryID := range news.Categories {
+			if _, err := tx.Exec(context.Background(), "INSERT INTO news_category(news_id, category_id) VALUES($1, $2)",
+				id, categoryID); err != nil {
+				return err
 			}
 		}
-		if isLenTags {
-			for _, tagID := range news.Tags {
-				if _, err := tx.Exec(context.Background(), "INSERT INTO news_tag(news_id, tag_id) VALUES($1, $2)",
-					id, tagID); err != nil {
-					return err
-				}
+	}
+	if isLenTags {
+		for _, tagID := range news.Tags {
+			if _, err := tx.Exec(context.Background(), "INSERT INTO news_tag(news_id, tag_id) VALUES($1, $2)",
+				id, tagID); err != nil {
+				return err
 			}
-		}
-	} else {
-		if _, err := tx.Exec(context.Background(), "INSERT INTO news(shortname, body, author, published_time, published, body_full) VALUES($1, $2, $3, $4, $5, $6)",
-			news.Shortname, news.Body, news.Author, news.PublishedTime, true, news.BodyFull); err != nil {
-			return err
 		}
 	}
 
