@@ -152,14 +152,14 @@ func (d *DatabaseRepo) SelectNewsTagByID(id int) (newsTag model.NewsTag, err err
 
 func (d *DatabaseRepo) SelectAllNews() (news []model.News, err error) {
 	var tmp model.News
-	rows, err := d.db.Query(context.Background(), "SELECT id, shortname, body, author, published_time, changed_time, published, body_full  FROM news")
+	rows, err := d.db.Query(context.Background(), "SELECT id, shortname, body, author, published_time, changed_time, published, body_full, topicimage_src, topicimage_srcset FROM news")
 	if err != nil {
 		return
 	}
 	defer rows.Close()
 
 	for rows.Next() {
-		err = rows.Scan(&tmp.ID, &tmp.Shortname, &tmp.Body, &tmp.Author, &tmp.PublishedTime, &tmp.ChangedTime, &tmp.Published, &tmp.BodyFull)
+		err = rows.Scan(&tmp.ID, &tmp.Shortname, &tmp.Body, &tmp.Author, &tmp.PublishedTime, &tmp.ChangedTime, &tmp.Published, &tmp.BodyFull, &tmp.TopicImageSrc, &tmp.TopicImageSrcSet)
 		if err != nil {
 			return
 		}
@@ -169,14 +169,14 @@ func (d *DatabaseRepo) SelectAllNews() (news []model.News, err error) {
 }
 
 func (d *DatabaseRepo) SelectNewsByID(id int) (news model.News, err error) {
-	rows, err := d.db.Query(context.Background(), "SELECT id, shortname, body, author, published_time, changed_time, published, body_full  FROM news WHERE id = $1", id)
+	rows, err := d.db.Query(context.Background(), "SELECT id, shortname, body, author, published_time, changed_time, published, body_full, topicimage_src, topicimage_srcset  FROM news WHERE id = $1", id)
 	if err != nil {
 		return
 	}
 	defer rows.Close()
 
 	for rows.Next() {
-		err = rows.Scan(&news.ID, &news.Shortname, &news.Body, &news.Author, &news.PublishedTime, &news.ChangedTime, &news.Published, &news.BodyFull)
+		err = rows.Scan(&news.ID, &news.Shortname, &news.Body, &news.Author, &news.PublishedTime, &news.ChangedTime, &news.Published, &news.BodyFull, &news.TopicImageSrc, &news.TopicImageSrcSet)
 		if err != nil {
 			return
 		}

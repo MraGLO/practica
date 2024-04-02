@@ -28,7 +28,7 @@ func (d *DatabaseRepo) UpdateNewsTag(id int, newsTag *model.NewsTag) (err error)
 }
 
 func (d *DatabaseRepo) UpdateNews(id int, news *model.News) (err error) {
-	_, err = d.db.Exec(context.Background(), "UPDATE category SET shortname = $1, body = $2, author = $3, changed_time = $4 published = $5, body_full = $6 WHERE id = $7",
-		news.Shortname, news.Body, news.Author, time.Now(), news.Published, news.BodyFull, id)
+	_, err = d.db.Exec(context.Background(), "UPDATE category SET shortname = $1, body = $2, author = $3, changed_time = $4 published = $5, body_full = $6, topicimage_src = $7, topicimage_srcset = $8 WHERE id = $9",
+		news.Shortname, news.Body, news.Author, time.Now(), news.Published, news.BodyFull, news.TopicImageSrc, news.TopicImageSrcSet, id)
 	return
 }

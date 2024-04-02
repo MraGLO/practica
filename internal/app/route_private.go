@@ -30,6 +30,7 @@ func PrivateRoutes(router *fiber.App, handlers *http.Handlers) {
 	newNews := router.Group("/newNews")
 
 	newNews.Post("add", handlers.AddNews)
+	newNews.Post("mdToHTML", handlers.MdToHTMLNews)
 
 	category.Post("/add", handlers.AddCategory)
 	category.Put("/:categoryID", handlers.UpdateCategory)

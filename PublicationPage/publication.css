@@ -166,3 +166,42 @@ textarea {
     line-height: 20px;
     cursor: pointer;
 }
+
+.message__container {
+    position: fixed;
+    top: 30px;
+    right: 100px;
+    z-index: 100;
+}
+
+.message__box {
+    width: 200px;
+    height: 45px;
+    padding: 10px 20px;
+    
+    margin-bottom: 30px; /* Добавляем отступ снизу для каждого сообщения */
+    color: white;
+    border-radius: 2px;
+    align-items: center;
+}
+
+.message__box > div:first-child {
+    margin-right: 20px;
+}
+
+.message__box-error{
+    background-color:#da4336;
+}
+
+.message__box-success{
+    background-color: #63c240;
+}
+
+
+.message__header {
+    font-size: 20px;
+}
+
+.message__text {
+    font-size: 14px;
+}
