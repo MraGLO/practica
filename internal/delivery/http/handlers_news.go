@@ -36,8 +36,8 @@ func (h *Handlers) GetNewsById(c *fiber.Ctx) error {
 
 	if id <= 0 {
 		log.Println("id <=0")
-		c.SendStatus(400)
-		return c.JSON(model.Error{Data: "id не может быть меньше или рано 0"})
+		c.Status(400)
+		return c.JSON(model.Error{Data: "id не может быть меньше или равно 0"})
 	}
 
 	news, err := h.services.GetNewsByID(id)
@@ -180,8 +180,8 @@ func (h *Handlers) DeleteNews(c *fiber.Ctx) error {
 
 	if id <= 0 {
 		log.Println("id <=0")
-		c.SendStatus(400)
-		return c.JSON(model.Error{Data: "id не может быть меньше или рано 0"})
+		c.Status(400)
+		return c.JSON(model.Error{Data: "id не может быть меньше или равно 0"})
 	}
 
 	found, err := h.services.DeleteNews(id)
