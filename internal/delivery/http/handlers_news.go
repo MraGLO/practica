@@ -171,7 +171,7 @@ func (h *Handlers) DeleteNews(c *fiber.Ctx) error {
 }
 
 func (h *Handlers) MdToHTMLNews(c *fiber.Ctx) error {
-	var md []byte
+	var md string
 
 	err := json.Unmarshal(c.Body(), &md)
 	if err != nil {
@@ -179,13 +179,13 @@ func (h *Handlers) MdToHTMLNews(c *fiber.Ctx) error {
 		return c.SendStatus(400)
 	}
 
-	HTML, err := mdToHTML(md)
+	HTML, err := mdToHTML([]byte(md))
 	if err != nil {
 		log.Println(err)
 		return c.SendStatus(400)
 	}
 
-	return c.JSON(HTML)
+	return c.JSON(string(HTML))
 
 }
 
