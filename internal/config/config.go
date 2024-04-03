@@ -3,6 +3,7 @@ package config
 import (
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/MraGLO/practica/pkg/database/postgres"
 
@@ -46,7 +47,7 @@ func GetConfig(path string) (conf *Config, err error) {
 
 // getYAMLConfig return config from yaml file.
 func getYAMLConfig(path string) (*Config, error) {
-	content, err := os.ReadFile(path)
+	content, err := os.ReadFile(filepath.Clean(path))
 	if err != nil {
 		return nil, errors.Wrap(err, configErrRead)
 	}
