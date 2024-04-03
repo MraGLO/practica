@@ -93,7 +93,7 @@ func (h *Handlers) UpdateNews(c *fiber.Ctx) error {
 
 	if id <= 0 {
 		log.Println("id <=0")
-		c.SendStatus(400)
+		c.Status(400)
 		return c.JSON(model.Error{Data: "id не может быть меньше или рано 0"})
 	}
 

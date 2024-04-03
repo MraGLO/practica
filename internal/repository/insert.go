@@ -33,10 +33,10 @@ func (d *DatabaseRepo) InsertNews(news *model.NewNews, isLenCategories bool, isL
 	}
 	defer func() {
 		if err != nil {
-			tx.Rollback(context.Background())
+			err = tx.Rollback(context.Background())
 			return
 		} else {
-			tx.Commit(context.Background())
+			err = tx.Commit(context.Background())
 			return
 		}
 	}()
@@ -46,9 +46,12 @@ func (d *DatabaseRepo) InsertNews(news *model.NewNews, isLenCategories bool, isL
 		return err
 	} else {
 		defer row.Close()
-		if isLenTags || isLenCategories != false {
+		if isLenTags || isLenCategories {
 			for row.Next() {
-				row.Scan(&id)
+				err = row.Scan(&id)
+				if err != nil {
+					return err
+				}
 			}
 		}
 

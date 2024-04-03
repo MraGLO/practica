@@ -46,7 +46,11 @@ func (a *App) Init(confPath string) {
 }
 
 func (a *App) Run() {
-	a.router.Listen(a.config.App.Listenport)
+	err := a.router.Listen(a.config.App.Listenport)
+	if err != nil {
+		log.Println(err)
+		return
+	}
 }
 
 func (a *App) Close() {

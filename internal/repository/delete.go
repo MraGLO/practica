@@ -53,10 +53,10 @@ func (d *DatabaseRepo) DeleteNews(id int) (count int, err error) {
 	}
 	defer func() {
 		if err != nil {
-			tx.Rollback(context.Background())
+			err = tx.Rollback(context.Background())
 			return
 		} else {
-			tx.Commit(context.Background())
+			err = tx.Commit(context.Background())
 			return
 		}
 	}()
